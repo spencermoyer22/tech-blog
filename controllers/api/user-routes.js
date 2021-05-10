@@ -5,7 +5,7 @@ router.get('/', (req,res) => {
     User.findAll({
         attributes: {exclude: ['password']}
     })
-    .then(userData => res.json(User))
+    .then(userData => res.json(userData))
     .catch(err => {
         console.log(err);
         res.status(500).json(err);
@@ -54,7 +54,7 @@ router.post('/', (req, res) => {
     })
     .then(userData => {
         req.session.save(() => {
-            res.session.user_id = userData.id;
+            req.session.user_id = userData.id;
             req.session.username = userData.username;
             req.session.loggedIn = true;
 
@@ -86,17 +86,17 @@ router.post('/login', (req, res) => {
         }
 
         req.session.save(() => {
-            res.session.user_id = userDate.id;
+            req.session.user_id = userData.id;
             req.session.username = userData.username;
-            res.session.loggedIn = true;
+            req.session.loggedIn = true;
 
-            res.json({user: userData, message: 'You are logged in'});
+            res.json({ user: userData, message: 'You are now logged in!' });
         })
     });
 });
 
-router.post('logout', (res, res) => {
-    if (res.session.loggedIn) {
+router.post('/logout', (req, res) => {
+    if (req.session.loggedIn) {
         req.session.destroy(() => {
             res.status(204).end();
         });
