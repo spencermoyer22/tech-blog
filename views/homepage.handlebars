@@ -1,0 +1,14 @@
+<ol>
+    {{#each posts as |post|}}
+    <li>
+        <article class='posts'>
+            <div class='title'>
+                <h2>{{title}}</h2>
+            </div>
+            <div>
+                {{contents}}
+            </div>
+        </article>
+    </li>
+    {{/each}}
+</ol>
